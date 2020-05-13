@@ -19,7 +19,7 @@
 import Icon from "@com/Icon";
 export default {
   name: "Nav",
-  components: { Icon }
+  components: { Icon },
 };
 </script>
 
@@ -42,7 +42,7 @@ nav {
       height: 32px;
     }
   }
-  > .item.selected {
+  > .selected {
     .icons {
       color: @color-highlight;
     }
