@@ -12,7 +12,7 @@ import Nav from "@com/Nav";
 export default {
   props: ["classPrefix"],
   components: { Nav },
-  name: "Layout"
+  name: "Layout",
 };
 </script>
 
@@ -24,15 +24,14 @@ export default {
   overflow: hidden;
 }
 .content {
-  overflow: auto;
   flex: 1;
 }
 .nav {
   width: 100%;
-  height: 80px;
+  // height: 50px;
   // position: fixed;
   // bottom: 0;
   // left: 0;
-  // background: #ffffff;
+  background: #ffffff;
 }
 </style>

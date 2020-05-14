@@ -1,15 +1,15 @@
 <template>
-  <nav>
+  <nav class="nav">
     <router-link to="/statistics" class="item" active-class="selected">
-      <Icon name="icon-app-statistics" />
+      <Icon name="icon-app-statistics" fontSize="20" />
       统计
     </router-link>
     <router-link to="/money" class="item" active-class="selected">
-      <Icon name="icon-app-money" />
+      <Icon name="icon-app-money" fontSize="20" />
       记账
     </router-link>
     <router-link to="/labels" class="item" active-class="selected">
-      <Icon name="icon-app-label" />
+      <Icon name="icon-app-label" fontSize="20" />
       标签
     </router-link>
   </nav>
@@ -19,32 +19,28 @@
 import Icon from "@com/Icon";
 export default {
   name: "Nav",
-  components: { Icon }
+  components: { Icon },
 };
 </script>
 
 <style lang="less" scoped>
 @import "~@/less/helper.less";
-nav {
+.nav {
   > a {
     color: #000000;
   }
   &:extend(.outerShadow);
   display: flex;
   flex-direction: row;
-  font-size: 20px;
+  font-size: 14px;
   color: #000000;
   > .item {
-    padding: 2px 0;
+    padding: 10px 0;
     width: 33.33333%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    .icon {
-      width: 32px;
-      height: 32px;
-    }
   }
   > .selected {
     .icons {
