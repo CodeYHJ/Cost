@@ -3,7 +3,7 @@
     <div class="content" :class="classPrefix && `${classPrefix}-content`">
       <slot />
     </div>
-    <Nav />
+    <Nav class="nav" />
   </div>
 </template>
 
@@ -21,9 +21,18 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  overflow: hidden;
 }
 .content {
   overflow: auto;
-  flex-grow: 1;
+  flex: 1;
+}
+.nav {
+  width: 100%;
+  height: 80px;
+  // position: fixed;
+  // bottom: 0;
+  // left: 0;
+  // background: #ffffff;
 }
 </style>

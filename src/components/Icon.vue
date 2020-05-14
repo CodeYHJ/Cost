@@ -2,7 +2,7 @@
   <div class="icons">
     <my-icons
       class="icon"
-      :type="`icon-${name}`"
+      :type="name"
       :style="`font-size:${fontSize}px`"
     ></my-icons>
   </div>
@@ -12,12 +12,12 @@
 import Icon from "ant-design-vue/lib/icon";
 // import "ant-design-vue/lib/icon/style/css";
 const myIcons = Icon.createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1166214_utjwuf24rv.js",
+  scriptUrl: "//at.alicdn.com/t/font_1166214_cz8hsl5qke5.js"
 });
 export default {
   props: { name: String, fontSize: { type: String, default: "16" } },
   components: { myIcons },
-  name: "Icon",
+  name: "Icon"
 };
 </script>
 

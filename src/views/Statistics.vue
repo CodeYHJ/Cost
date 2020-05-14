@@ -57,14 +57,14 @@ export default {
     return {
       time1: "",
       month: moment().month(),
-      year: moment().year(),
+      year: moment().year()
     };
   },
   methods: {
     onSelectdate(e) {
       Object.assign(this, e);
-    },
-  },
+    }
+  }
 };
 </script>
 
