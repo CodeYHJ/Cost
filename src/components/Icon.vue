@@ -12,7 +12,7 @@
 import Icon from "ant-design-vue/lib/icon";
 // import "ant-design-vue/lib/icon/style/css";
 const myIcons = Icon.createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1166214_cz8hsl5qke5.js"
+  scriptUrl: "//at.alicdn.com/t/font_1166214_th3cx70vz2l.js"
 });
 export default {
   props: { name: String, fontSize: { type: String, default: "16" } },

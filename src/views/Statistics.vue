@@ -18,7 +18,7 @@
               :year="year"
             >
               <div>
-                <Icon fontSize="12" name="sanjiaojiantoushang" />
+                <Icon fontSize="12" name="icon-app-triangle" />
               </div>
             </SelectMonth>
           </div>
@@ -41,18 +41,21 @@
         </div>
       </div>
     </div>
+    <div class="content">
+      <Cost />
+    </div>
   </Layout>
 </template>
 
 <script>
-import Layout from "@/components/Layout.vue";
+import Layout from "@com/Layout.vue";
 import SelectMonth from "@com/Statistics/SelectMonth";
 import moment from "moment";
-import Icon from "@/components/Icon.vue";
-
+import Icon from "@com/Icon.vue";
+import Cost from "@com/Statistics/Cost";
 export default {
   name: "Statistics",
-  components: { Layout, SelectMonth, Icon },
+  components: { Layout, SelectMonth, Icon, Cost },
   data() {
     return {
       time1: "",
@@ -108,5 +111,10 @@ export default {
       }
     }
   }
+}
+.content {
+  height: 570px;
+  padding-bottom: 50px;
+  overflow: auto;
 }
 </style>

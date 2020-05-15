@@ -12,7 +12,7 @@ import Nav from "@com/Nav";
 export default {
   props: ["classPrefix"],
   components: { Nav },
-  name: "Layout",
+  name: "Layout"
 };
 </script>
 
@@ -28,10 +28,10 @@ export default {
 }
 .nav {
   width: 100%;
-  // height: 50px;
-  // position: fixed;
-  // bottom: 0;
-  // left: 0;
+  height: 50px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
   background: #ffffff;
 }
 </style>
