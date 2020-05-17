@@ -1,21 +1,24 @@
 <template>
   <div class="numberPad">
-    <div class="output">{{ output }}</div>
+    <div class="output">
+      <span class="remarks">备注： {{ iconName }}</span>
+      <span class="num">{{ output }}</span>
+    </div>
     <div class="buttons">
-      <button @click="inputContent">1</button>
-      <button @click="inputContent">2</button>
-      <button @click="inputContent">3</button>
-      <button @click="remove">删除</button>
-      <button @click="inputContent">4</button>
-      <button @click="inputContent">5</button>
-      <button @click="inputContent">6</button>
-      <button @click="clear">清空</button>
-      <button @click="inputContent">7</button>
-      <button @click="inputContent">8</button>
-      <button @click="inputContent">9</button>
-      <button @click="ok" class="ok">OK</button>
-      <button @click="inputContent" class="zero">0</button>
-      <button @click="inputContent">.</button>
+      <div @click="inputContent">1</div>
+      <div @click="inputContent">2</div>
+      <div @click="inputContent">3</div>
+      <div @click="remove">删除</div>
+      <div @click="inputContent">4</div>
+      <div @click="inputContent">5</div>
+      <div @click="inputContent">6</div>
+      <div @click="clear">清空</div>
+      <div @click="inputContent">7</div>
+      <div @click="inputContent">8</div>
+      <div @click="inputContent">9</div>
+      <div @click="ok" class="ok">OK</div>
+      <div @click="inputContent" class="zero">0</div>
+      <div @click="inputContent">.</div>
     </div>
   </div>
 </template>
@@ -23,7 +26,7 @@
 <script>
 export default {
   name: "NumberPad",
-  props: ["value"],
+  props: ["value", "iconName"],
   data() {
     return {
       output: this.value.toString()
@@ -44,8 +47,10 @@ export default {
         }
         return;
       }
-      if (this.output.indexOf(".") >= 0 && input === ".") {
-        return;
+
+      if (this.output.indexOf(".") >= 0) {
+        if (input === ".") return;
+        if (this.output.split(".")[1].toString().length > 1) return;
       }
       this.output += input;
     },
@@ -60,7 +65,7 @@ export default {
       this.output = "0";
     },
     ok() {
-      this.$emit("update:value", this.output);
+      // this.$emit("update:value", this.output);
       this.$emit("submit", this.output);
       this.output = "0";
     }
@@ -75,67 +80,35 @@ export default {
   background: @color-highlight;
   height: 250px;
   .output {
-    &:extend(.clearFix);
-    // &:extend(.innerShadow);
+    .row_layout();
+    justify-content: space-between;
+    align-items: center;
     font-size: 30px;
     font-family: Consolas, monospace;
     padding: 0 16px;
     text-align: right;
     height: 50px;
+    > .remarks {
+      width: 80px;
+      font-size: 14px;
+    }
+    > .num {
+      flex: 1;
+      padding-left: 10px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
   }
-  // .buttons {
-  //   &:extend(.clearFix);
-  //   > button {
-  //     width: 25%;
-  //     height: 50px;
-  //     float: left;
-  //     border: none;
-  //     &.ok {
-  //       height: 50 * 2px;
-  //       float: right;
-  //     }
-  //     &.zero {
-  //       width: 25 * 2%;
-  //       // flex: 1;
-  //     }
-  //     @bg: #f2f2f2;
-  //     &:nth-child(1) {
-  //       background: @bg;
-  //     }
-  //     &:nth-child(2),
-  //     &:nth-child(5) {
-  //       background: darken(@bg, 4%);
-  //     }
-  //     &:nth-child(3),
-  //     &:nth-child(6),
-  //     &:nth-child(9) {
-  //       background: darken(@bg, 4 * 2%);
-  //     }
-  //     &:nth-child(4),
-  //     &:nth-child(7),
-  //     &:nth-child(10) {
-  //       background: darken(@bg, 4 * 3%);
-  //     }
-  //     &:nth-child(8),
-  //     &:nth-child(11),
-  //     &:nth-child(13) {
-  //       background: darken(@bg, 4 * 4%);
-  //     }
-  //     &:nth-child(14) {
-  //       background: darken(@bg, 4 * 5%);
-  //     }
-  //     &:nth-child(12) {
-  //       background: darken(@bg, 4 * 6%);
-  //     }
-  //   }
-  // }
+
   .buttons {
-    display: flex;
-    flex-direction: row;
+    .row_layout();
     flex-wrap: wrap;
-    > button {
+    > div {
       width: 25%;
       height: 50px;
+      text-align: center;
+      line-height: 50px;
     }
 
     & .zero {

@@ -14,19 +14,36 @@
       </div>
     </div>
     <div class="scroller">
-      <div
-        ref="tags"
-        class="tags"
-        :style="visible ? 'height:calc(100% - 300px)' : ''"
-      >
+      <div class="tagsLeft" v-if="active">
         <div
-          :id="svg"
-          :class="['tag', activeName === svg ? 'active' : '']"
-          v-for="svg in svgList"
-          :key="svg"
-          @click="handleActive(svg)"
+          :id="svg.icon"
+          class="tag"
+          v-for="svg in svgLeftList"
+          :key="svg.icon"
+          @click="handleActive(svg.icon)"
         >
-          <Icon class="tag" :name="svg" fontSize="30" />
+          <Icon
+            :class="['tagIcon', activeName === svg.icon ? 'active' : '']"
+            :name="svg.icon"
+            fontSize="30"
+          />
+          <div class="name">{{ svg.name }}</div>
+        </div>
+      </div>
+      <div class="tagsRight" v-else>
+        <div
+          :id="svg.icon"
+          class="tag"
+          v-for="svg in svgRightList"
+          :key="svg.icon"
+          @click="handleActive(svg.icon)"
+        >
+          <Icon
+            :class="['tagIcon', activeName === svg.icon ? 'active' : '']"
+            :name="svg.icon"
+            fontSize="30"
+          />
+          <div class="name">{{ svg.name }}</div>
         </div>
       </div>
     </div>
@@ -38,7 +55,7 @@
       height="250"
       destroyOnClose
     >
-      <NumberPad :value="inputValue" />
+      <NumberPad :value="inputValue" :iconName="iconName" @submit="onSubmit" />
     </a-drawer>
   </Layout>
 </template>
@@ -48,42 +65,38 @@ import "ant-design-vue/lib/tabs/style/css";
 import "ant-design-vue/lib/drawer/style/css";
 
 import Layout from "@com/Layout.vue";
-
 import NumberPad from "@com/Money/NumberPad.vue";
-// import Types from "@com/Money/Types.vue";
-// import FormItem from "@com/Money/FormItem.vue";
-// import Tags from "@com/Money/Tags.vue";
 import Icon from "@/components/Icon.vue";
 import recordListModel from "@/models/recordListModel";
-import tagListModel from "@/models/tagListModel";
-const recordList = recordListModel.fetch();
-const tagList = tagListModel.fetch();
+import { iconIncomeConfig, setIcon, iconExpenditureConfig } from "../lib/icon";
 
 export default {
   name: "Money",
-  // components: { Tags, FormItem, Types, NumberPad, Layout },
   components: { Layout, Icon, NumberPad },
   data() {
     return {
       active: true,
-      tags: tagList,
       visible: false,
-      svgList: [],
+      svgLeftList: [],
+      svgRightList: [],
+
       activeName: "",
       inputValue: "0",
+      type: "-",
       //
-      recordList: recordList,
       record: {
+        id: "",
         tags: [],
-        notes: "",
-        type: "-",
-        amount: 0
+        note: "",
+        createdAt: "",
+        inComeAmount: 0,
+        expenditureAmount: 0
       }
     };
   },
-  watch: {
-    onRecordListChange() {
-      recordListModel.save(this.recordList);
+  computed: {
+    iconName() {
+      return this.activeName === "" ? "" : iconIncomeConfig[this.activeName];
     }
   },
   methods: {
@@ -93,15 +106,6 @@ export default {
         this.activeName = "";
       } else {
         this.activeName = name;
-        console.log(document.querySelector(`#${name}`).getBoundingClientRect());
-
-        setTimeout(() => {
-          console.log(
-            document.querySelector(`#${name}`).id,
-            document.querySelector(`#${name}`).getBoundingClientRect()
-          );
-        }, 2000);
-        // this.$refs.tags.scrollTo();
       }
     },
     showDrawer() {
@@ -113,37 +117,32 @@ export default {
       this.inputValue = "0";
     },
     onActiveLeft() {
-      this.active = true;
+      Object.assign(this, { active: true, type: "-" });
     },
     onActiveRight() {
-      this.active = false;
+      Object.assign(this, { active: false, type: "+" });
     },
-    onUpdateTags(value) {
-      this.record.tags = value;
-    },
-    onUpdateNotes(value) {
-      this.record.notes = value;
-    },
-    saveRecord() {
-      const record2 = recordListModel.clone(this.record);
-      record2.createdAt = new Date();
-      this.recordList.push(record2);
+    onSubmit(e) {
+      if (e === 0) return;
+      const record2 = {
+        id: new Date().getTime(),
+        createdAt: new Date(),
+        svg: this.activeName,
+        amount: e,
+        type: this.type,
+        note:
+          this.type === "-"
+            ? iconExpenditureConfig[this.activeName]
+            : iconIncomeConfig[this.activeName]
+      };
+      recordListModel.save(record2, this.type);
+      this.$router.push("/");
     }
   },
   created() {
-    const that = this;
-    const timer = setInterval(() => {
-      const svgList = document.querySelector("svg");
-      if (svgList) {
-        const nodeList = svgList.childNodes;
-        const cachList = [];
-        nodeList.forEach(el => {
-          if (el.id.indexOf("-app-") === -1) cachList.push(el.id);
-        });
-        that.svgList = cachList;
-        clearInterval(timer);
-      }
-    }, 1000);
+    const { expenditureList, incomeList } = setIcon();
+    this.svgLeftList = expenditureList;
+    this.svgRightList = incomeList;
   }
 };
 </script>
@@ -195,30 +194,33 @@ export default {
 }
 .scroller {
   flex: 1;
-  display: flex;
-  flex-direction: row;
-  transition: margin-left 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  will-change: margin-left;
-  padding: 60px 0;
-  > .tags {
+  padding: 60px 10px;
+  > .tagsLeft,
+  .tagsRight {
     font-size: 16px;
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
-    padding: 0 30px;
-    height: 500px;
+    height: 450px;
     overflow: auto;
-    > .active {
-      background: @color-highlight !important;
-    }
     > .tag {
-      padding: 10px;
-      margin: 20px;
-      display: flex;
+      width: 100px;
+      height: 100px;
+      margin: 20px 8px;
+      .col_layout();
       align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: #efefef;
+      .tagIcon {
+        padding: 10px;
+        background: #efefef;
+        border-radius: 50%;
+      }
+      > .active {
+        background: @color-highlight !important;
+      }
+      .name {
+        font-size: 12px;
+        padding: 2px;
+        text-align: center;
+      }
     }
   }
 }

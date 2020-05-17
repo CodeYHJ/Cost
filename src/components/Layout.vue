@@ -4,6 +4,15 @@
       <slot />
     </div>
     <Nav class="nav" />
+    <a-drawer
+      placement="bottom"
+      :visible="$store.getters.visible"
+      @close="onClose"
+      height="100vh"
+      destroyOnClose
+    >
+      1232
+    </a-drawer>
   </div>
 </template>
 
@@ -12,7 +21,15 @@ import Nav from "@com/Nav";
 export default {
   props: ["classPrefix"],
   components: { Nav },
-  name: "Layout"
+  name: "Layout",
+  data() {
+    return {};
+  },
+  methods: {
+    onClose() {
+      this.$store.commit("pageState/LOGIN_VISIBLE", { visible: false });
+    }
+  }
 };
 </script>
 
