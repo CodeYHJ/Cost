@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <div class="header">
-      <h2 style="text-align:center">闲时记账</h2>
+      <h2 style="text-align:center">熊猫记账</h2>
       <div class="costBox">
         <div class="select">
           <div class="year">{{ year }}年</div>

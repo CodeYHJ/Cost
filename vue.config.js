@@ -2,6 +2,7 @@ const path = require("path");
 const pathFn = p => {
   return path.resolve(__dirname, p);
 };
+
 module.exports = {
   outputDir: "xiongmao",
   publicPath: "/xiongmao/",
