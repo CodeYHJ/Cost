@@ -1,6 +1,11 @@
 pipeline {
     agent any
     stages {
+        stage('Test') {
+            steps {
+                git branch: 'master', credentialsId: 'github_Cost_deploy', url: 'https://github.com/CodeYHJ/Cost'
+            }
+        }
         stage('git clone master') {
             when {
                branch 'master'
@@ -28,7 +33,7 @@ pipeline {
                branch 'master'
             }
             steps {
-                sshPublisher(publishers: [sshPublisherDesc(configName: 'QQ Server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/mobile/xiongmao', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '**/admin/**/*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'QQ Server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/mobile/xiongmao', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '**/xiongmao/**/*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
             }
         }
          stage('delete all'){
