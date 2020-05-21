@@ -1,22 +1,14 @@
 const path = require("path");
-const pathFn = (p) => {
+const pathFn = p => {
   return path.resolve(__dirname, p);
 };
 module.exports = {
+  outputDir: "xiongmao",
+  publicPath: "/xiongmao/",
   css: {
     loaderOptions: {
       postcss: {
         plugins: [
-          // require("postcss-pxtorem")({
-          //   rootValue: 37.5,
-          //   unitPrecision: 5,
-          //   propList: ["font", "font-size", "line-height", "letter-spacing"],
-          //   selectorBlackList: [],
-          //   replace: true,
-          //   mediaQuery: false,
-          //   minPixelValue: 0,
-          //   exclude: /node_modules/i,
-          // }),
           require("postcss-px-to-viewport")({
             unitToConvert: "px", //需要转换的单位，默认为"px"
             viewportWidth: 375, // 视窗的宽度，对应的是我们设计稿的宽度
@@ -32,19 +24,19 @@ module.exports = {
             exclude: /node_modules/i, //忽略某些文件夹下的文件或特定文件，例如 'node_modules' 下的文件
             landscape: false, //是否添加根据 landscapeWidth 生成的媒体查询条件 @media (orientation: landscape)
             landscapeUnit: "vw", //横屏时使用的单位
-            landscapeWidth: 1134, //横屏时使用的视口宽度
-          }),
-        ],
-      },
-    },
+            landscapeWidth: 1134 //横屏时使用的视口宽度
+          })
+        ]
+      }
+    }
   },
   configureWebpack: {
     resolve: {
       alias: {
         "@com": pathFn("./src/components"),
         "@view": pathFn("./src/views"),
-        "@less": pathFn("./src/less"),
-      },
-    },
-  },
+        "@less": pathFn("./src/less")
+      }
+    }
+  }
 };
