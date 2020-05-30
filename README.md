@@ -1,5 +1,7 @@
 ## 熊猫记账（Cost）
 
+[在线地址](https://mobile.codeyhj.cn/xiongmao/statistics)
+
 ### 基本信息
 
 熊猫记账是一款简单 Mobile for Web 应用。
@@ -14,3 +16,4 @@
 - [x] 支出、收入统计功能
 - [x] 明细功能
 - [x] 个人信息
+- [ ] 登陆
